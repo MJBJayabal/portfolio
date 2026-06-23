@@ -18,7 +18,7 @@ export default function CodeRain() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const FONT = 16   // px cell size
-    const TAIL = 9    // trailing glyphs per stream
+    const TAIL = 14   // trailing glyphs per stream
     let cols = 0, drops = [], width = 0, height = 0
 
     function setup() {
@@ -31,8 +31,11 @@ export default function CodeRain() {
       ctx.font = `${FONT}px "SF Mono","Fira Code",Consolas,monospace`
       ctx.textBaseline = 'top'
       cols = Math.ceil(width / FONT)
+      // Spread heads across the whole screen (and a little above) so the rain is
+      // populated from the very first frame instead of slowly falling in.
+      const rows = height / FONT
       drops = Array.from({ length: cols }, () => ({
-        y: (Math.random() * -height) / FONT, // start above the top, measured in rows
+        y: Math.random() * (rows + 10) - 10, // rows: from -10 (just above) down through the screen
         speed: 0.12 + Math.random() * 0.22,  // rows advanced per drawn frame (slow drift)
       }))
     }
@@ -41,7 +44,7 @@ export default function CodeRain() {
     function drawStatic() {
       ctx.clearRect(0, 0, width, height)
       const rows = Math.ceil(height / FONT)
-      ctx.fillStyle = 'rgba(99,140,246,0.06)'
+      ctx.fillStyle = 'rgba(120,155,250,0.16)'
       for (let i = 0; i < cols; i++) {
         for (let r = 0; r < rows; r += 3) ctx.fillText(glyph(i, r), i * FONT, r * FONT)
       }

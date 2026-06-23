@@ -28,7 +28,9 @@
 html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 body {
   font-family: var(--font);
-  background: var(--bg);
+  /* transparent so the fixed .bg-canvas (blobs + code rain, z-index:-2) shows through;
+     the base color lives on <html> (#07070f, set in index.html critical CSS) */
+  background: transparent;
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
