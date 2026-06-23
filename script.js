@@ -90,5 +90,77 @@ const counterObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 counters.forEach(c => counterObserver.observe(c));
 
+// ===================== Animated code window (self-typing) =====================
+(function () {
+  const codeEl = document.getElementById('codeBlock');
+  if (!codeEl) return;
+
+  // [text, tokenClass]  — class maps to .tok-* colors
+  const lines = [
+    [['const ', 'key'], ['developer', 'var'], [' = ', 'punc'], ['{', 'punc']],
+    [['  name', 'var'], [': ', 'punc'], ['"Muthu Jayabal"', 'str'], [',', 'punc']],
+    [['  role', 'var'], [': ', 'punc'], ['"Software Engineer"', 'str'], [',', 'punc']],
+    [['  location', 'var'], [': ', 'punc'], ['"Bengaluru, India"', 'str'], [',', 'punc']],
+    [['  stack', 'var'], [': ', 'punc'], ['[', 'punc'], ['"React"', 'str'], [', ', 'punc'], ['"React Native"', 'str'], [', ', 'punc'], ['"Next.js"', 'str'], [']', 'punc'], [',', 'punc']],
+    [['  passion', 'var'], [': ', 'punc'], ['true', 'num'], [',', 'punc']],
+    [['}', 'punc'], [';', 'punc']],
+    [],
+    [['function ', 'key'], ['build', 'fn'], ['() ', 'punc'], ['{', 'punc']],
+    [['  while ', 'key'], ['(', 'punc'], ['coffee', 'var'], [') ', 'punc'], ['{', 'punc']],
+    [['    ship', 'fn'], ['(', 'punc'], ['product', 'var'], ['); ', 'punc'], ['// 🚀 ships to the App Store', 'com']],
+    [['  }', 'punc']],
+    [['}', 'punc']],
+  ];
+
+  // Flatten into a token stream with explicit newlines
+  const stream = [];
+  lines.forEach((line, i) => {
+    line.forEach(t => stream.push(t));
+    if (i < lines.length - 1) stream.push(['\n', 'nl']);
+  });
+
+  const spanFor = (cls) => (cls === 'punc' || cls === '') ? 'tok-punc' : `tok-${cls}`;
+  const fullHTML = () => stream.map(([txt, cls]) =>
+    cls === 'nl' ? '\n' : `<span class="${spanFor(cls)}">${txt}</span>`
+  ).join('');
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { codeEl.innerHTML = fullHTML(); return; }
+
+  const CARET = '<span class="code-caret"></span>';
+  let committed = '';
+  let ti = 0; // token index
+
+  function typeToken() {
+    if (ti >= stream.length) {                       // finished -> hold, then loop
+      codeEl.innerHTML = committed + CARET;
+      setTimeout(() => { committed = ''; ti = 0; typeToken(); }, 4000);
+      return;
+    }
+    const [txt, cls] = stream[ti];
+    if (cls === 'nl') { committed += '\n'; ti++; setTimeout(typeToken, 120); return; }
+
+    const span = spanFor(cls);
+    let ci = 0;
+    (function typeChar() {
+      ci++;
+      codeEl.innerHTML = committed + `<span class="${span}">${txt.slice(0, ci)}</span>` + CARET;
+      if (ci < txt.length) {
+        setTimeout(typeChar, txt.length > 12 ? 16 : 30);
+      } else {
+        committed += `<span class="${span}">${txt}</span>`;
+        ti++;
+        setTimeout(typeToken, cls === 'com' ? 260 : 40);
+      }
+    })();
+  }
+
+  // Start when the window scrolls into view
+  const startObs = new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) { typeToken(); obs.disconnect(); }
+  }, { threshold: 0.3 });
+  startObs.observe(codeEl);
+})();
+
 // ===================== Footer year =====================
 document.getElementById('year').textContent = new Date().getFullYear();
