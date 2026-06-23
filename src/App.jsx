@@ -1,3 +1,4 @@
+import { LazyMotion, domAnimation } from 'framer-motion'
 import Background from './components/Background.jsx'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
@@ -12,8 +13,11 @@ import Footer from './components/Footer.jsx'
 export const asset = (p) => `${import.meta.env.BASE_URL}${p}`
 
 export default function App() {
+  // LazyMotion + the lightweight `m` components load only the `domAnimation`
+  // feature set (animations, variants, hover/tap, whileInView) — no drag/layout —
+  // which trims the Framer Motion bundle noticeably vs. importing full `motion`.
   return (
-    <>
+    <LazyMotion features={domAnimation}>
       <Background />
       <Navbar />
       <main>
@@ -25,6 +29,6 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </LazyMotion>
   )
 }

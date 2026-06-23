@@ -1,9 +1,10 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 // Drop-in replacement for the old `.reveal` IntersectionObserver pattern.
 // Fades + lifts content into view once, when it scrolls into the viewport.
+// Uses the lightweight `m` component (see LazyMotion in App.jsx).
 export default function Reveal({ children, as = 'div', delay = 0, className, ...rest }) {
-  const MotionTag = motion[as] || motion.div
+  const MotionTag = m[as] || m.div
   return (
     <MotionTag
       className={className}

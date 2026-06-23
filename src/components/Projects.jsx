@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
 
 const PROJECTS = [
@@ -91,7 +91,7 @@ export default function Projects() {
       </Reveal>
 
       {/* Grid */}
-      <motion.div
+      <m.div
         className="projects-grid"
         variants={gridV}
         initial="hidden"
@@ -99,7 +99,7 @@ export default function Projects() {
         viewport={{ once: true, amount: 0.15 }}
       >
         {PROJECTS.map((p) => (
-          <motion.article
+          <m.article
             className="project-card"
             key={p.title}
             variants={cardV}
@@ -107,7 +107,7 @@ export default function Projects() {
             whileTap={tap}
           >
             <div className="pc-top">
-              <motion.span className="pc-emoji" variants={emojiV}>{p.emoji}</motion.span>
+              <m.span className="pc-emoji" variants={emojiV}>{p.emoji}</m.span>
               <div className="pc-links"></div>
             </div>
             <h3>{p.title}</h3>
@@ -115,21 +115,21 @@ export default function Projects() {
             <div className="chips small">
               {p.chips.map((c) => <span key={c}>{c}</span>)}
             </div>
-          </motion.article>
+          </m.article>
         ))}
 
-        <motion.article
+        <m.article
           className="project-card more-card"
           variants={cardV}
           whileHover="hover"
           whileTap={tap}
         >
-          <motion.span className="pc-emoji" variants={emojiV}>✨</motion.span>
+          <m.span className="pc-emoji" variants={emojiV}>✨</m.span>
           <h3>More on the way</h3>
           <p>I'm always building. Reach out to see code samples, private repos and what I'm shipping next.</p>
           <a href="#contact" className="link-arrow">Let's talk →</a>
-        </motion.article>
-      </motion.div>
+        </m.article>
+      </m.div>
     </section>
   )
 }

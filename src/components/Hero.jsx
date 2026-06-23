@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const ROLES = [
   'Software Engineer',
@@ -56,28 +56,28 @@ export default function Hero() {
 
   return (
     <section className="hero" id="home">
-      <motion.div
+      <m.div
         className="hero-inner"
         variants={container}
         initial="hidden"
         animate="show"
       >
-        <motion.p className="hero-greeting" variants={item}>👋 Hello, I'm</motion.p>
-        <motion.h1 className="hero-name" variants={item}>Muthu Jayabal</motion.h1>
-        <motion.h2 className="hero-role" variants={item}>
+        <m.p className="hero-greeting" variants={item}>👋 Hello, I'm</m.p>
+        <m.h1 className="hero-name" variants={item}>Muthu Jayabal</m.h1>
+        <m.h2 className="hero-role" variants={item}>
           <span className="static-text">I'm a </span>
           <span className="typed">{typed}</span><span className="cursor-blink">|</span>
-        </motion.h2>
-        <motion.p className="hero-desc" variants={item}>
+        </m.h2>
+        <m.p className="hero-desc" variants={item}>
           Software Engineer with <strong>4+ years</strong> of experience building{' '}
           <strong>cross-platform web &amp; mobile apps</strong> with React, React Native &amp; Next.js —
           from production iOS/Android apps to AI-powered platforms.
-        </motion.p>
-        <motion.div className="hero-cta" variants={item}>
+        </m.p>
+        <m.div className="hero-cta" variants={item}>
           <a href="#projects" className="btn btn-primary">View My Work →</a>
           <a href="#contact" className="btn btn-ghost">Get in Touch</a>
-        </motion.div>
-        <motion.div className="hero-socials" variants={item}>
+        </m.div>
+        <m.div className="hero-socials" variants={item}>
           <a href="https://www.linkedin.com/in/muthu-jayabal-1b7581209/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
           </a>
@@ -87,8 +87,8 @@ export default function Hero() {
           <a href="tel:+919994251853" aria-label="Phone" title="Call">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.15 15.15 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.36 11.36 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
           </a>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
       <a href="#about" className="scroll-down" aria-label="Scroll down">
         <span className="mouse"><span className="wheel"></span></span>
