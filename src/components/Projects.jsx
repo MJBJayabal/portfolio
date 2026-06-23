@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
 
 const PROJECTS = [
@@ -28,6 +29,26 @@ const PROJECTS = [
 ]
 
 export default function Projects() {
+  const reduce = useReducedMotion()
+
+  // Grid: cards fade/spring in one after another as the grid scrolls into view.
+  const gridV = {
+    hidden: {},
+    show: { transition: { staggerChildren: reduce ? 0 : 0.1, delayChildren: 0.05 } },
+  }
+  // Each card: spring entrance + a "hover" state that lifts it (replaces the old CSS hover transform).
+  const cardV = {
+    hidden: reduce ? { opacity: 0 } : { opacity: 0, y: 40 },
+    show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 90, damping: 15 } },
+    hover: reduce ? {} : { y: -8, transition: { type: 'spring', stiffness: 320, damping: 22 } },
+  }
+  // Emoji reacts to its card's hover (variant label propagates from the parent article).
+  const emojiV = {
+    show: { rotate: 0, scale: 1 },
+    hover: reduce ? {} : { rotate: [0, -14, 12, -8, 0], scale: 1.25, transition: { duration: 0.55 } },
+  }
+  const tap = reduce ? undefined : { scale: 0.985 }
+
   return (
     <section className="section" id="projects">
       <Reveal className="section-head">
@@ -70,25 +91,45 @@ export default function Projects() {
       </Reveal>
 
       {/* Grid */}
-      <div className="projects-grid">
-        {PROJECTS.map((p, i) => (
-          <Reveal as="article" className="project-card" key={p.title} delay={i * 0.06}>
-            <div className="pc-top"><span className="pc-emoji">{p.emoji}</span><div className="pc-links"></div></div>
+      <motion.div
+        className="projects-grid"
+        variants={gridV}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
+      >
+        {PROJECTS.map((p) => (
+          <motion.article
+            className="project-card"
+            key={p.title}
+            variants={cardV}
+            whileHover="hover"
+            whileTap={tap}
+          >
+            <div className="pc-top">
+              <motion.span className="pc-emoji" variants={emojiV}>{p.emoji}</motion.span>
+              <div className="pc-links"></div>
+            </div>
             <h3>{p.title}</h3>
             <p>{p.desc}</p>
             <div className="chips small">
               {p.chips.map((c) => <span key={c}>{c}</span>)}
             </div>
-          </Reveal>
+          </motion.article>
         ))}
 
-        <Reveal as="article" className="project-card more-card">
-          <span className="pc-emoji">✨</span>
+        <motion.article
+          className="project-card more-card"
+          variants={cardV}
+          whileHover="hover"
+          whileTap={tap}
+        >
+          <motion.span className="pc-emoji" variants={emojiV}>✨</motion.span>
           <h3>More on the way</h3>
           <p>I'm always building. Reach out to see code samples, private repos and what I'm shipping next.</p>
           <a href="#contact" className="link-arrow">Let's talk →</a>
-        </Reveal>
-      </div>
+        </motion.article>
+      </motion.div>
     </section>
   )
 }

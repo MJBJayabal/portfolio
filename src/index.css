@@ -222,10 +222,11 @@ a { color: inherit; text-decoration: none; }
 .ps-pill { margin-top: auto; background: rgba(52,211,153,0.15); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.35); padding: 8px 14px; border-radius: 100px; font-size: 0.78rem; }
 
 .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-.project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 26px; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; }
-.project-card:hover { transform: translateY(-8px); border-color: rgba(99,102,241,0.5); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+/* transform is animated by Framer Motion (see Projects.jsx); CSS only handles the glow/border */
+.project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 26px; transition: border-color 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; }
+.project-card:hover { border-color: rgba(99,102,241,0.5); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
 .pc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-.pc-emoji { font-size: 2rem; }
+.pc-emoji { font-size: 2rem; display: inline-block; transform-origin: center; }
 .project-card h3 { font-family: var(--display); font-size: 1.25rem; margin-bottom: 10px; }
 .project-card p { color: var(--muted); font-size: 0.92rem; margin-bottom: 16px; flex: 1; }
 .more-card { background: linear-gradient(160deg, rgba(139,92,246,0.1), transparent); border-style: dashed; align-items: flex-start; justify-content: center; }
