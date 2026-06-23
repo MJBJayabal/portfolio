@@ -33,7 +33,7 @@ export default function CodeRain() {
       cols = Math.ceil(width / FONT)
       drops = Array.from({ length: cols }, () => ({
         y: (Math.random() * -height) / FONT, // start above the top, measured in rows
-        speed: 0.3 + Math.random() * 0.5,    // rows advanced per drawn frame
+        speed: 0.12 + Math.random() * 0.22,  // rows advanced per drawn frame (slow drift)
       }))
     }
 
@@ -64,14 +64,14 @@ export default function CodeRain() {
           if (yy > height) continue
           const a = 1 - t / TAIL
           ctx.fillStyle = t === 0
-            ? `rgba(170,235,255,${0.55 * a + 0.2})` // bright cyan-white head
-            : `rgba(99,140,246,${0.4 * a})`          // indigo fading tail
+            ? `rgba(180,240,255,${0.6 * a + 0.35})` // bright cyan-white head
+            : `rgba(120,155,250,${0.6 * a})`         // indigo fading tail
           ctx.fillText(glyph(i, row), i * FONT, yy)
         }
         d.y += d.speed
         if ((d.y - TAIL) * FONT > height) {
           d.y = Math.random() * -20
-          d.speed = 0.3 + Math.random() * 0.5
+          d.speed = 0.12 + Math.random() * 0.22
         }
       }
     }
